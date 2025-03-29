@@ -36,4 +36,4 @@ After entering the desired parameters, the new sound is created and saved in a f
 
 Listening to the Sound:
 
-Once the new file is created, the script will automatically play the original and modified sound for you to listen to.
+Once the new file is created, you will have to open manually the audio filesto listen to them.
