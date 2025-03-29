@@ -1,35 +1,38 @@
-# Presentacion del proyecto
-Somos tres estudiantes franceses en intercambio: 
-- Lise Le Guillou, 
-- Jimmy, 
-- Joseph
+# **Project Presentation**  
+We worked on this project during our exchange semester in Argentina, which is why we kept everything in Spanish. For now, there is no English version. If you don’t speak Spanish, you will need to translate the content to understand the parameters required. Sorry for the inconvenience!  
 
-Hemos trabajado en funciones diferentes durante el proyecto para distribuir inteligentemente el trabajo.Vamos a presentar nuestro juego de batalla naval para que entiendan bien a qué corresponde cada página y cada función que hemos codificado.
+# **Team Presentation**  
+We are three French exchange students:  
+- **Lise Le Guillou**  
+- **Jimmy**  
+- **Joseph**  
 
-# Funcionamiento global del codigo
-En esta carpeta hemos diseñado varios archivos de Python para separar las funciones y organizar el código. A continuación, describiremos brevemente qué representa cada uno de los archivos y por qué utilizamos esta clasificación:
+Each of us worked on different functions to distribute the workload efficiently. Here’s an overview of our Battleship game, including explanations of the files and functions we coded.  
 
-## Etapa 1 del proyecto
-Reglas.py: Contiene funciones relacionadas con la definición de reglas del juego, como la configuración de la flota, opciones de juego, tamaño del tablero, nivel de dificultad del ordenador y modo de juego. Finalmente, contiene todo lo que el usuario debe elegir para configurar el juego expecto su flota.
+# **Overall Code Structure**  
+In this project, we organized several Python files to separate functions and structure the code clearly. Below is a summary of each file and its purpose:  
 
-General.py: Aquí se encuentran funciones generales utilizadas en todo el juego, como la inicialización del tablero, la visualización de resultados, la visualización del tablero durante el juego, la prueba de finalización del juego y la verificación de si un barco ha sido tocado. Asi son las funciones comunes para los tiros de la computadora como los del usuario.
+## **Phase 1 of the Project**  
+- **Reglas.py**: Contains functions related to defining the game rules, such as fleet configuration, game options, board size, computer difficulty level, and game mode. This file includes everything the user needs to configure except for their fleet.  
 
-Flota_usuario.py: Contiene funciones específicas para la interacción con el usuario, como la colocación de barcos por parte del jugador y la obtención de datos de entrada del usuario.
+- **General.py**: Stores general functions used throughout the game, including board initialization, displaying results, visualizing the board during gameplay, checking for game completion, and verifying if a ship has been hit. These functions apply to both the computer’s and the user’s shots.  
 
-Flota_ordenador.py: Este archivo incluye funciones para que el ordenador coloque sus barcos de manera aleatoria.
+- **Flota_usuario.py**: Manages user interaction, including placing ships and collecting user input.  
 
-## Etapa 2
-Tiro_ordenador.py: Aquí se encuentran las funciones relacionadas con los tiros realizados por el ordenador, tanto de manera aleatoria como estratégica, y la verificación de si ha hundido un barco del jugador.
+- **Flota_ordenador.py**: Contains functions for the computer to randomly place its ships.  
 
-## Etapa 3
-Tiro_usuario.py: Contiene las funciones relacionadas con los tiros realizados por el jugador, incluyendo la lógica para marcar aciertos, fallos y hundimientos de barcos en el tablero.
+## **Phase 2**  
+- **Tiro_ordenador.py**: Handles the computer’s shots, both random and strategic, and checks if it has sunk one of the player’s ships.  
 
-## Finalizacion
-Juego.py : Este archivo incluye los dos modos posibles para jugar la batalla naval. Finalmente es la compilacion de los tiros de usuario y computadora para crear un partido. Elegimos dos modos para jugar a nuestra batalla naval. 
-Primero, el modo alternativo donde los jugadores (computadora y usuario) se juegan uno tras otro hasta alcanzar un número de tiros cada uno que el usuario ingresó al inicio del juego.
-Segundo, el modo continuo donde los jugadores disparan siempre que golpeen los barcos de su oponente. Si están en el agua, le corresponde al otro jugador disparar. Esta vez el juego termina cuando uno de los jugadores ha hundido toda la flota de su oponente.
+## **Phase 3**  
+- **Tiro_usuario.py**: Contains functions related to the player's shots, including marking hits, misses, and sunken ships on the board.  
 
-Main.py : Contiene todas las funciones para configurar el juego, colocar los barcos del ususario y de la computadora y con eso, se juega tambien aca el partido. Por eso, es con este archivo que debe iniciar el juego.
+## **Finalization**  
+- **Juego.py**: Implements the two game modes for Battleship. It combines user and computer shots to create a full match.  
+  1. **Alternative mode**: Players (computer and user) take turns shooting until they reach a set number of shots defined by the user at the beginning.  
+  2. **Continuous mode**: Players keep shooting as long as they hit their opponent's ships. If they miss, it’s the other player’s turn. The game ends when one player sinks the entire enemy fleet.  
 
-# Funcionamiento de cada archivo
-En cada archivo hemos comentado las funciones para entender qué parámetros reciben y qué retornan. Esto ayuda a comprender su importancia en el código global.
+- **Main.py**: This is the main file that brings everything together. It sets up the game, places the user’s and computer’s ships, and runs the match. To start the game, you must execute this file.  
+
+# **How Each File Works**  
+Each file includes comments explaining the functions, their parameters, and what they return. This helps in understanding their role in the overall code.  
