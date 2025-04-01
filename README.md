@@ -14,5 +14,9 @@ A Python-based project for analyzing and modifying audio signals. Features:
 - Frequency analysis  
 - Basic sound effects processing  
 
-## 2. **Evacuation Path Simulation** 🚪
-To be added very soon
+## 3. **Evacuation Path Simulation** 🚪  
+A simulation of a room evacuation process, where people move towards the exit while avoiding obstacles. The project models the movement of individuals and tracks the time it takes for everyone to evacuate. Features:  
+- Simultaneous movement of people towards the exit  
+- Obstacle placement and interaction  
+- Time-based evacuation process  
+- Visual display of the evacuation steps
