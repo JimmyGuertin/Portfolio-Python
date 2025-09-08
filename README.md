@@ -1,6 +1,6 @@
 # Portfolio-Python
 
-This repository contains two main projects:  
+This repository contains three main projects:  
 
 ## 1. Battleship Game 🎯  
 A command-line version of the classic Battleship game, where you play against the computer with different difficulty levels. Features:  
