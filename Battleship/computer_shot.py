@@ -112,7 +112,7 @@ def strategic_computer_shot(board, size, fleet_size, ship_locations, previous_sh
         if ship_sunk:
             print("Sunk!")
             sunk_ships += 1
-            mark_ship_sunk(board, positions)
+            mark_ship_sunk(board, board,positions)
             mark_nearby_sunk_areas(x, y, positions, cells_to_avoid)
             remove_associated_probabilities(probabilities, positions)
             hits.clear()
