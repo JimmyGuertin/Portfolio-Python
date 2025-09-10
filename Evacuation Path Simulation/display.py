@@ -1,7 +1,7 @@
-# display.py
-
-def display_room(room, door_row, door_col, door_width, obstacles):
-    """Displays the room with symbols for better visualization."""
+def display_room(room: np.ndarray, door_row: int, door_col: int, door_width: int, obstacles: list[tuple[int, int]]) -> None:
+    """
+    Display the room visually, showing obstacles, doors, people, and empty spaces.
+    """
     (n, m) = room.shape
     display = ""
 
@@ -23,4 +23,4 @@ def display_room(room, door_row, door_col, door_width, obstacles):
                 display += "⬜ "  # Empty space
         display += "\n"
 
-    print(display)
+    print(display)  # Print the visual representation

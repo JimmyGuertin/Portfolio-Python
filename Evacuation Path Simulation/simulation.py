@@ -1,22 +1,21 @@
 import numpy as np
 from display import display_room
 
-def manhattan_distance(x1, y1, x2, y2):
-    """Calculates the Manhattan distance between two points."""
+def manhattan_distance(x1: int, y1: int, x2: int, y2: int) -> int:
+    """Calculate Manhattan distance between two points."""
     return abs(x1 - x2) + abs(y1 - y2)
 
-def move_toward_exit(room, door_row, door_col, door_width, obstacles):
+def move_toward_exit(room: np.ndarray, door_row: int, door_col: int, door_width: int, obstacles: list[tuple[int, int]]) -> tuple[np.ndarray, bool]:
     """
-    Moves all people simultaneously if they can get closer to the exit.
-    Ensures only one person is at the door at a time, and only one exits per step.
-    Uses Manhattan distance to guide movement.
+    Move all people closer to the exit if possible.
+    Only one person exits per step and avoids obstacles.
     """
     (n, m) = np.shape(room)
     new_room = np.copy(room)
     moved = False  
     exit_occurred = False  # Track if someone has exited this step
     
-    # Define the door positions
+    # Define door positions
     door_positions = [(door_row, j) for j in range(door_col, door_col + door_width)]
     
     for i in range(n):
@@ -24,7 +23,7 @@ def move_toward_exit(room, door_row, door_col, door_width, obstacles):
             if room[i, j] == 1:  # Person detected
                 moves = []
 
-                # Possible moves
+                # Possible moves (up, down, left, right)
                 possible_moves = [
                     (i - 1, j) if i > 0 and (i - 1, j) not in obstacles and new_room[i - 1, j] == 0 else None,
                     (i + 1, j) if i < n - 1 and (i + 1, j) not in obstacles and new_room[i + 1, j] == 0 else None,
@@ -32,17 +31,16 @@ def move_toward_exit(room, door_row, door_col, door_width, obstacles):
                     (i, j + 1) if j < m - 1 and (i, j + 1) not in obstacles and new_room[i, j + 1] == 0 else None
                 ]
                 
-                # Filter valid moves
                 moves = [move for move in possible_moves if move is not None]
                 
-                # If the person is at the door and no one has exited yet, they exit
+                # Exit if person is at the door
                 if not exit_occurred and (i, j) in door_positions:
                     new_room[i, j] = 0
                     moved = True
-                    exit_occurred = True  # Mark that an exit has happened
+                    exit_occurred = True
                     continue
                 
-                # If there are possible moves, choose the one that minimizes Manhattan distance
+                # Move toward closest door
                 if moves and not exit_occurred:
                     best_move = min(moves, key=lambda move: min(manhattan_distance(move[0], move[1], d[0], d[1]) for d in door_positions))
                     new_room[i, j] = 0
@@ -51,12 +49,12 @@ def move_toward_exit(room, door_row, door_col, door_width, obstacles):
 
     return new_room, moved
 
-def is_empty(room):
-    """Checks if the room is fully evacuated."""
+def is_empty(room: np.ndarray) -> bool:
+    """Check if the room is fully evacuated."""
     return np.all(room == 0)
 
-def simulate_evacuation(N, n, m, door_row, door_col, door_width, obstacles):
-    """Simulates the evacuation process."""
+def simulate_evacuation(N: int, n: int, m: int, door_row: int, door_col: int, door_width: int, obstacles: list[tuple[int, int]]) -> str:
+    """Simulate the evacuation process and display each step."""
     room = np.zeros((n, m), dtype=int)
 
     # Randomly place people in the room
