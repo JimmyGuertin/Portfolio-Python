@@ -1,60 +1,56 @@
-from General import mostrar_tablero,comprobar_posicion, actualizar_tablero, registrar_posiciones
+from general import show_board, check_position, update_board, register_positions
 
 """
-Objetivo : Verificar que los entradas del usuarios son enteros cuando elige los parametros del partido
-Entrada : mensaje es la entrada del usuario
-Salida : valor es lo que el usuario entra o print con mensaje de error para intentar de nuevo
+Purpose: Ensure that the user's input is an integer when choosing game parameters
+Input: message string displayed to the user
+Output: value entered by the user (or prints an error message to retry)
 """
-def obtener_entero(mensaje):
+def get_integer(message):
     while True:
         try:
-            valor = int(input(mensaje))
-            return valor
+            value = int(input(message))
+            return value
         except ValueError:
-            print("Por favor, introduce un valor entero válido.")
-
+            print("Please enter a valid integer.")
 
 """
-Objetivo : Pedir al usuario donde quiere colocar cada barco de su flota 
-Entrada : - tablero inicializado 
-          - flota_tamano es la composicion que elige el ususario para su flota y ella de la compu
-          - flota_cantidad es la cantidad de cada tipo de barcos que contiene la flota del usuario
-Salida : ubicacion_barcos que representa los barcos del usuario con sus posiciones
+Purpose: Ask the user where they want to place each ship in their fleet
+Inputs: - board initialized
+        - fleet_size dictionary with the size of each type of ship
+        - fleet_count dictionary with the number of each type of ship in the user's fleet
+Output: ship_locations dictionary representing the user's ships with their positions
 """
-def colocar_barcos(tablero, flota_tamaño, flota_cantidad):
-    ubicacion_barcos = {barco: [] for barco in flota_cantidad}
+def place_ships(board, fleet_size, fleet_count):
+    ship_locations = {ship: [] for ship in fleet_count}
 
-    for barco in flota_cantidad.keys():
-        for num in range(flota_cantidad[barco]):
-            sig = False
-            while not sig:
-                print(f"Colocar {barco} número {num + 1} :")
-                mostrar_tablero(tablero) 
-                n = len(tablero)
+    for ship in fleet_count.keys():
+        for num in range(fleet_count[ship]):
+            placed = False
+            while not placed:
+                print(f"Place {ship} number {num + 1}:")
+                show_board(board)
+                n = len(board)
 
-                x = obtener_entero(f"¿Dónde colocar las coordenadas de la fila de origen (0-{n-1})?: ")
-                y = obtener_entero(f"¿Dónde colocar las coordenadas de la columna de origen (0-{n-1})?: ")
+                x = get_integer(f"Enter the row coordinate for the origin (0-{n-1}): ")
+                y = get_integer(f"Enter the column coordinate for the origin (0-{n-1}): ")
 
-                if x < 0 or x >= len(tablero) or y < 0 or y >= len(tablero):
-                    print('Valores incorrectos. Las coordenadas deben estar entre 0 y 9. Vuelve a intentarlo.')
-                    print()
+                if x < 0 or x >= len(board) or y < 0 or y >= len(board):
+                    print(f"Invalid values. Coordinates must be between 0 and {n-1}. Please try again.\n")
                     continue
 
-                direccion = 0  
-                if barco != 'Lanchas':
-                    direccion = obtener_entero('Dirección horizontal (hasta derecha) (0) / vertical (hasta arriba) (1): ')
+                direction = 0  
+                if ship != 'Lanchas':  # Small boat always horizontal
+                    direction = get_integer("Direction horizontal (right) (0) / vertical (up) (1): ")
 
-                    if direccion not in [0, 1]:
-                        print('Valor incorrecto para la dirección. Debe ser 0 (horizontal) o 1 (vertical). Vuelve a intentarlo.')
-                        print()  
+                    if direction not in [0, 1]:
+                        print("Invalid direction. Must be 0 (horizontal) or 1 (vertical). Please try again.\n")
                         continue
 
-                if comprobar_posicion(tablero, flota_tamaño, barco, x, y, direccion):
-                    tablero = actualizar_tablero(tablero, flota_tamaño, barco, x, y, direccion)
-                    registrar_posiciones(ubicacion_barcos, barco, x, y, direccion, flota_tamaño[barco])
-                    sig = True
+                if check_position(board, fleet_size, ship, x, y, direction):
+                    board = update_board(board, fleet_size, ship, x, y, direction)
+                    register_positions(ship_locations, ship, x, y, direction, fleet_size[ship])
+                    placed = True
                 else:
-                    print('No hay espacio para el barco.')
-                    print()  
+                    print("No space available for the ship.\n")
     
-    return ubicacion_barcos
+    return ship_locations

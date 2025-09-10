@@ -1,56 +1,55 @@
 import random
-from General import mostrar_tablero, comprobar_posicion, actualizar_tablero, registrar_posiciones
+from general import show_board, check_position, update_board, register_positions
 
 """
-Objetivo : Generar coordenadas aleatorias para colocar los barcos del ordenador despues
-Entrada : - tamano es la dimension de la rejilla 
-          - barco es el barco que va a posicionar 
-          - direccion es la direccion aleatoria 
-          - flota_tamano es la composicion que elige el ususario para su flota y ella de la compu
-Salida : (x,y) la pareja de coordenadas elegida aletoriamente para posicionar el barco
+Objective: Generate random coordinates to place the computer's ships later
+Input: - size is the dimension of the grid
+       - ship is the ship to place
+       - direction is the random direction
+       - fleet_size is the composition chosen by the user for their fleet and the computer's fleet
+Output: (x, y) the pair of coordinates randomly chosen to place the ship
 """
-def generar_coordenadas_aleatorias(tamaño,barco,direccion,flota_tamaño):
-    tamaño_barco=flota_tamaño[barco]
-    if direccion==0:
-        x = random.randint(0, tamaño-tamaño_barco)
-        y = random.randint(0, tamaño-1)
+def generate_random_coordinates(size, ship, direction, fleet_size):
+    ship_size = fleet_size[ship]
+    if direction == 0:
+        x = random.randint(0, size - ship_size)
+        y = random.randint(0, size - 1)
     else:
-        x = random.randint(1, tamaño-1)
-        y = random.randint(0, tamaño-tamaño_barco)
+        x = random.randint(1, size - 1)
+        y = random.randint(0, size - ship_size)
     return x, y
 
 
 """
-Objetivo : Generar direccion aleatorias para colocar los barcos del ordenador despues
-Entrada : ninguna
-Salida : 0 o 1 de manera aleatoria
+Objective: Generate random direction to place the computer's ships later
+Input: None
+Output: 0 or 1 randomly
 """
-def generar_direccion_aleatoria():
+def generate_random_direction():
     return random.randint(0, 1)
 
 
 """
-Objetivo : colocar cada barco de la flota de la computadora
-Entrada : - tablero inicializado 
-          - flota_tamano es la composicion que elige el ususario para su flota y ella de la compu
-          - flota_cantidad es la cantidad de cada tipo de barcos que contiene la flota del usuario
-          - tamano es la dimension de la rejilla 
-Salida : ubicacion_barcos que contiene todos los barcos del ordenador
+Objective: Place each ship of the computer's fleet
+Input: - initialized board
+       - fleet_size is the composition chosen by the user for their fleet and the computer's fleet
+       - fleet_count is the number of each type of ship in the user's fleet
+       - size is the dimension of the grid
+Output: ship_locations containing all the computer's ships
 """
-def colocar_barcos_aleatorios(tablero, flota_tamaño, flota_cantidad, tamaño):
-    ubicacion_barcos = {barco: [] for barco in flota_cantidad}
+def place_random_ships(board, fleet_size, fleet_count, size):
+    ship_locations = {ship: [] for ship in fleet_count}
 
-    for barco in flota_cantidad.keys():
-        for num in range(flota_cantidad[barco]):
-            sig = False
-            while not sig:
-                direccion = generar_direccion_aleatoria() if barco != 'Lanchas' else 0
-                x, y = generar_coordenadas_aleatorias(tamaño,barco,direccion,flota_tamaño)
-                
+    for ship in fleet_count.keys():
+        for num in range(fleet_count[ship]):
+            success = False
+            while not success:
+                direction = generate_random_direction() if ship != 'Lanchas' else 0
+                x, y = generate_random_coordinates(size, ship, direction, fleet_size)
 
-                if comprobar_posicion(tablero, flota_tamaño, barco, x, y, direccion):
-                    tablero = actualizar_tablero(tablero, flota_tamaño, barco, x, y, direccion)
-                    registrar_posiciones(ubicacion_barcos, barco, x, y, direccion, flota_tamaño[barco])
-                    sig = True
-                    # mostrar_tablero(tablero) # para verificar si los barcos se posicionan bien                 
-    return ubicacion_barcos
+                if check_position(board, fleet_size, ship, x, y, direction):
+                    board = update_board(board, fleet_size, ship, x, y, direction)
+                    register_positions(ship_locations, ship, x, y, direction, fleet_size[ship])
+                    success = True
+                    # show_board(board) # to verify if ships are placed correctly
+    return ship_locations

@@ -1,82 +1,82 @@
 """
-Objetivo : crear una rejilla de 0 hasta 'tamano' con '~' en cada casilla 
-Entrada : tamano representa el numero de lineas y columnas que el ususario quiere para su rejilla
-Salida : tablero es la rejilla inicializada para empezar el juego 
+Objective: Create a grid from 0 to 'size' with '~' in each cell
+Input: size represents the number of rows and columns the user wants for their grid
+Output: board is the initialized grid to start the game
 """
-def inicializar_tablero(tamaño):
-    tablero = [['~' for _ in range(tamaño + 1)] for _ in range(tamaño + 1)]
-    for i in range(1, tamaño + 1):
-        tablero[0][i] = i-1
-        tablero[i][0] = i-1
-    return tablero
+def initialize_board(size):
+    board = [['~' for _ in range(size + 1)] for _ in range(size + 1)]
+    for i in range(1, size + 1):
+        board[0][i] = i - 1
+        board[i][0] = i - 1
+    return board
 
 
 """
-Objetivo : Mostrar en la consola para que el usuario vea su tablero con sus barcos 
-           y el tablero de sus tiros anteriores para saber donde tirar
-Entrada : tablero es la rejilla inicializada para empezar el juego
-Salida : el print del tablero bien disenado 
+Objective: Display the board on the console so the user can see their ships
+           and their previous shots to know where to shoot
+Input: board is the initialized grid to start the game
+Output: prints the board nicely formatted
 """
-def mostrar_tablero(tablero):
-    for fila in tablero:
-        print(' '.join(map(str, fila)))
+def show_board(board):
+    for row in board:
+        print(' '.join(map(str, row)))
     print()
 
 
 """
-Objetivo : Verificar que el jugador (usuario o compu) puede 
-           poner sus barcos en las coordenadas que elige 
-Entradas : - tablero es la rejilla inicializada para empezar el juego,
-           - flota_tamano es la composicion que elige el ususario para su flota y ella de la compu
-           - barco es el barco del que queremos ver si la coordenadas estan validas 
-           - (x,y) representan la casilla que tenemos que comprobar
-           - direccion es la direccion horizontal o vertical que quiere el ususario para su posicionar su barco
-Salida : un booleano que expresa si la posición es correcta o no
+Objective: Verify that the player (user or computer) can
+           place their ships at the chosen coordinates
+Inputs: - board is the initialized grid to start the game
+        - fleet_size is the composition chosen by the user for their fleet and the computer's fleet
+        - ship is the ship for which we want to check if coordinates are valid
+        - (x, y) are the cell coordinates to check
+        - direction is the horizontal or vertical orientation chosen for placing the ship
+Output: Boolean indicating whether the position is valid
 """
-def comprobar_posicion(tablero, flota_tamaño, barco, x, y, direccion):
-    longitud_barco = flota_tamaño[barco]
+def check_position(board, fleet_size, ship, x, y, direction):
+    ship_length = fleet_size[ship]
 
-    if direccion == 0:
-        if y+1 + longitud_barco > len(tablero):
-            print()
-            return False
-
-        for i in range(longitud_barco):
-            if tablero[x+1][y+1 + i] != '~':
-                print()
-                return False
-            if x+1 > 1 and tablero[x+1 - 1][y+1 + i] != '~':
-                print()
-                return False
-            if x+1 < len(tablero) - 1 and tablero[x+1 + 1][y+1 + i] != '~':
-                print()
-                return False
-        if y+1 > 1 and tablero[x+1][y+1 - 1] != '~':
-            print()
-            return False
-        if y+1 + longitud_barco < len(tablero) - 1 and tablero[x+1][y+1 + longitud_barco] != '~':
+    if direction == 0:
+        if y + 1 + ship_length > len(board):
             print()
             return False
 
-    elif direccion == 1:
-        if x+1 - longitud_barco + 1 < 1:
+        for i in range(ship_length):
+            if board[x + 1][y + 1 + i] != '~':
+                print()
+                return False
+            if x + 1 > 1 and board[x + 1 - 1][y + 1 + i] != '~':
+                print()
+                return False
+            if x + 1 < len(board) - 1 and board[x + 1 + 1][y + 1 + i] != '~':
+                print()
+                return False
+        if y + 1 > 1 and board[x + 1][y + 1 - 1] != '~':
+            print()
+            return False
+        if y + 1 + ship_length < len(board) - 1 and board[x + 1][y + 1 + ship_length] != '~':
             print()
             return False
 
-        for i in range(longitud_barco):
-            if tablero[x+1 - i][y+1] != '~':
-                print()
-                return False
-            if y+1 > 1 and tablero[x+1 - i][y+1 - 1] != '~':
-                print()
-                return False
-            if y+1 < len(tablero) - 1 and tablero[x+1 - i][y+1 + 1] != '~':
-                print()
-                return False
-        if x+1 - longitud_barco >= 1 and tablero[x+1 - longitud_barco][y+1] != '~':
+    elif direction == 1:
+        if x + 1 - ship_length + 1 < 1:
             print()
             return False
-        if x+1 < len(tablero) - 1 and tablero[x+1 + 1][y+1] != '~':
+
+        for i in range(ship_length):
+            if board[x + 1 - i][y + 1] != '~':
+                print()
+                return False
+            if y + 1 > 1 and board[x + 1 - i][y + 1 - 1] != '~':
+                print()
+                return False
+            if y + 1 < len(board) - 1 and board[x + 1 - i][y + 1 + 1] != '~':
+                print()
+                return False
+        if x + 1 - ship_length >= 1 and board[x + 1 - ship_length][y + 1] != '~':
+            print()
+            return False
+        if x + 1 < len(board) - 1 and board[x + 1 + 1][y + 1] != '~':
             print()
             return False
 
@@ -85,113 +85,112 @@ def comprobar_posicion(tablero, flota_tamaño, barco, x, y, direccion):
 
 
 """
-Objetivo : Mostrar su tablero de los barcos al jugador con sus barcos a medida que los agrega
-Entradas : - tablero es la rejilla inicializada para empezar el juego,
-           - flota_tamano es la composicion que elige el ususario para su flota y ella de la compu
-           - barco es el barco del que queremos ver si la coordenadas estan validas 
-           - (x,y) representan la casilla que tenemos que comprobar
-           - direccion es la direccion horizontal o vertical que quiere el ususario para su posicionar su barco
-Salida : tablero es la rejilla inicializada y actualizada con los barcos del jugador
+Objective: Display the user's board with their ships as they add them
+Inputs: - board is the initialized grid to start the game
+        - fleet_size is the composition chosen by the user for their fleet and the computer's fleet
+        - ship is the ship for which we want to place coordinates
+        - (x, y) are the cell coordinates to update
+        - direction is the horizontal or vertical orientation chosen for placing the ship
+Output: board updated with the player's ships
 """
-def actualizar_tablero(tablero, flota_tamaño, barco, x, y, direccion):
-    longitud_barco = flota_tamaño[barco]
+def update_board(board, fleet_size, ship, x, y, direction):
+    ship_length = fleet_size[ship]
     print()
-    if direccion == 0:
+    if direction == 0:
         print()
-        for i in range(longitud_barco):
-            tablero[x+1][y+1 + i] = barco[0]
-    elif direccion == 1:
-        for i in range(longitud_barco):
-            tablero[x+1 - i][y+1] = barco[0]
-    return tablero
+        for i in range(ship_length):
+            board[x + 1][y + 1 + i] = ship[0]
+    elif direction == 1:
+        for i in range(ship_length):
+            board[x + 1 - i][y + 1] = ship[0]
+    return board
 
 
 """
-Objetivo : Registrar las posiciones de los barcos del jugador (usuario y compu) para controlar despues el avance del juego
-Entradas : - ubicacion_barcos es un diccionario para corresponder 'barcos' a 'flota_cantidad'
-           - barco es el barco del que queremos ver si la coordenadas estan validas 
-           - (x,y) representan la casilla que tenemos que comprobar
-           - direccion es la direccion horizontal o vertical que quiere el ususario para su posicionar su barco
-Salida : ubicacion barcos actualizado con los barcos anadidos por el jugador
+Objective: Register the positions of the player's ships (user and computer) to track game progress
+Inputs: - ship_locations is a dictionary mapping 'ships' to 'fleet_count'
+        - ship is the ship for which coordinates are being registered
+        - (x, y) are the cell coordinates
+        - direction is the horizontal or vertical orientation of the ship
+Output: ship_locations updated with the newly placed ship
 """
-def registrar_posiciones(ubicacion_barcos, barco, x, y, direccion, longitud_barco):
-    posiciones = []
-    if direccion == 0:  # Horizontal
-        for i in range(longitud_barco):
-            posiciones.append((x, y + i))
-    elif direccion == 1:  # Vertical
-        for i in range(longitud_barco):
-            posiciones.append((x - i, y))
-    # Ajouter les positions pour le bateau spécifié
-    if barco in ubicacion_barcos:
-        ubicacion_barcos[barco] += [posiciones]
+def register_positions(ship_locations, ship, x, y, direction, ship_length):
+    positions = []
+    if direction == 0:  # Horizontal
+        for i in range(ship_length):
+            positions.append((x, y + i))
+    elif direction == 1:  # Vertical
+        for i in range(ship_length):
+            positions.append((x - i, y))
+    if ship in ship_locations:
+        ship_locations[ship] += [positions]
     else:
-        ubicacion_barcos[barco] = posiciones
+        ship_locations[ship] = positions
 
 
 """
-Objetivo : Una funccion de prueba para verificar que los barcos estan bien posicionados 
-Entradas : ubicacion barcos es el diccionario con todos los barcos del jugador (usuario o compu)
-Salida : print para mostrar los tipos de barcos con sus coordenadas (ej : submarino (1,2))
+Objective: Test function to verify that ships are properly placed
+Inputs: ship_locations is the dictionary of all player's ships (user or computer)
+Output: prints the type of ships with their coordinates (e.g., submarine (1, 2))
 """
-def mostrar_resultados(ubicacion_barcos):
-    print("Ubicación de los barcos:")
-    for barco, posiciones in ubicacion_barcos.items():
-        print(f"{barco}: {posiciones}")
+def show_results(ship_locations):
+    print("Ship locations:")
+    for ship, positions in ship_locations.items():
+        print(f"{ship}: {positions}")
 
 
 """
-Objetivo : Verificar si los barcos del jugador estan todos hundidos por el otro jugador 
-Entradas : - tablero es la rejilla con los barcos del jugador 
-           - letras_barcos representa la lista de la primera letra de cada tipo de barcos
-Salida : un booleano que explica si la rejilla esta vacia de barcos es decir que el juego esta terminado o no
+Objective: Check if all of a player's ships have been sunk by the other player
+Inputs: - board is the grid with the player's ships
+        - ship_letters is a list of the first letters of each ship type
+Output: Boolean indicating if the board has no ships left (game over)
 """
-def prueba_fin(tablero, letras_barcos):
-    return all(cell not in letras_barcos for row in tablero for cell in row)
+def test_game_over(board, ship_letters):
+    return all(cell not in ship_letters for row in board for cell in row)
 
 
 """
-Objetivo : Verificar si un barco es tocado duspues de un tiro
-Entradas : - tablero es la rejilla con los barcos del jugador
-           - (x,y) representan la casilla que tenemos que comprobar
-Salidas : un booleano que expresa si la posición es correcta o no
+Objective: Check if a ship is hit after a shot
+Inputs: - board is the grid with the player's ships
+        - (x, y) are the cell coordinates of the shot
+Output: Boolean indicating if the position is a hit
 """
-def verificar_barco_tocado(tablero,x,y):
-    if tablero[x+1][y+1] == 'X':
+def check_ship_hit(board, x, y):
+    if board[x + 1][y + 1] == 'X':
         return True
-    
+
 
 """
-Objetivo : Entender si un barco fue hundido despues de un tiro 
-Entradas : - tablero inicializado 
-           - (x,y) es la pajera de coordenadas que fue tirada el en ultimo tiro
-           - ubicacion_barcos_ordenador que es la rejilla (tablero) con todos los barcos del ordenador
-           - primeras_letras son las claves que corresponden a cada tipo de barcos
-Salidas : un booleano que nos dice si el barco fue totalmente hundido gracias al ultimo tiro del usuario
+Objective: Determine if a ship has been sunk after a shot
+Inputs: - board is the initialized grid
+        - (x, y) is the pair of coordinates shot in the last turn
+        - computer_ship_locations is the dictionary of all computer ships
+        - first_letters are the keys corresponding to each ship type
+Output: Boolean indicating if the ship has been completely sunk
 """
-def verificar_barco_hundido(tablero, x, y, ubicacion_barcos_ordenador, primeras_letras):
-    for barco, posiciones_list in ubicacion_barcos_ordenador.items():
-        for k in range (len(posiciones_list)):
-            for posiciones in posiciones_list[k]:
-                if (x, y) ==posiciones:
-                    coule = True
-                    for pos_x, pos_y in posiciones_list[k]: 
-                        if tablero[pos_x+1][pos_y+1] in primeras_letras:
-                            coule = False
+def check_ship_sunk(board, x, y, computer_ship_locations, first_letters):
+    for ship, positions_list in computer_ship_locations.items():
+        for k in range(len(positions_list)):
+            for positions in positions_list[k]:
+                if (x, y) == positions:
+                    sunk = True
+                    for pos_x, pos_y in positions_list[k]:
+                        if board[pos_x + 1][pos_y + 1] in first_letters:
+                            sunk = False
                             break
-                    if coule:
-                        return True, posiciones_list[k]
+                    if sunk:
+                        return True, positions_list[k]
     return False, None
 
 
 """
-Objetivo : Marcar un barco si fue hundido despues de un tiro 
-Entradas : - tablero inicializado 
-           - tableroc es el tablero con los resulatdos de los tiros anteriores
-           - posiciones_list son los coordenadas de los barcos del ordenador 
-Salida : un 'O' en el tablero inicial y el de los resultados 
+Objective: Mark a ship as sunk after a shot
+Inputs: - board is the initialized grid
+        - result_board is the board tracking previous shots
+        - positions_list are the coordinates of the computer's ship
+Output: Marks 'O' on both the main board and the result board
 """
-def marcar_barco_hundido(tablero, tableroc, posiciones_list):
-    for x, y in posiciones_list:
-        tablero[x+1][y+1] = 'O'
-        tableroc[x+1][y+1] = 'O'
+def mark_ship_sunk(board, result_board, positions_list):
+    for x, y in positions_list:
+        board[x + 1][y + 1] = 'O'
+        result_board[x + 1][y + 1] = 'O'

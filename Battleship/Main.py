@@ -1,63 +1,62 @@
-from Reglas import definir_flota, definir_opciones, definir_tamano, definir_modo, definir_nivel_ordenador
-from General import inicializar_tablero, mostrar_resultados, mostrar_tablero, prueba_fin, verificar_barco_tocado
-from Flota_usuario import colocar_barcos, obtener_entero
-from Flota_ordenador import colocar_barcos_aleatorios
-from Tiro_ordenador import tiro_compu_estrategico, tiro_compu_azar, verificar_barco_hundido
-from Tiro_usuario import tiro_usuario
-from Juego import Jugar
+from rules import define_fleet, define_options, define_size, define_mode, define_computer_level
+from general import initialize_board, show_results, show_board, test_game_over, check_ship_hit
+from user_fleet import place_ships, get_integer
+from computer_fleet import place_random_ships
+from computer_shot import strategic_computer_shot, random_computer_shot, check_ship_sunk
+from user_shot import user_shot
+from game import Play
 
 def main():
     print()
-    bienvenida = "Bienvenida en la batalla naval !\n"
-    print(bienvenida.center(60))
+    welcome_message = "Welcome to Battleship!\n"
+    print(welcome_message.center(60))
 
-    print("=> Para comenzar, elige el tamaño de la rejilla en la que jugarás.")
-    tamaño = definir_tamano()
-
-    print()
-    print("\n=> Ahora vas a elegir los barcos que constituirán tu flota y la de tu adversario. Atención, esta elección puede ser estratégica...\n")
-    opcion = definir_opciones(tamaño)
-
-    flota_cantidad = definir_flota(tamaño, opcion)
-    flota_tamaño = {'Portaaviones': 5, 'Buques': 4, 'Submarinos': 3, 'Cruceros': 2, 'Lanchas': 1}
-    primeras_letras = [cle[0] for cle in flota_tamaño.keys()]
-    tablero_usuario = inicializar_tablero(tamaño)
-    tablero_ordenador = inicializar_tablero(tamaño)
+    print("=> To start, choose the size of the grid you will play on.")
+    size = define_size()
 
     print()
-    print("=> Ahora vas a colocar tus barcos en la rejilla.\n")
-    ubicacion_barcos_usuario = colocar_barcos(tablero_usuario, flota_tamaño, flota_cantidad)
-    ubicacion_barcos_ordenador = colocar_barcos_aleatorios(tablero_ordenador, flota_tamaño, flota_cantidad, tamaño)
+    print("\n=> Now you will choose the ships that will make up your fleet and your opponent's fleet. Be careful, this choice can be strategic...\n")
+    option = define_options(size)
+
+    fleet_count = define_fleet(size, option)
+    fleet_size = {'Aircraft Carrier': 5, 'Battleships': 4, 'Submarines': 3, 'Cruisers': 2, 'Boats': 1}
+    first_letters = [key[0] for key in fleet_size.keys()]
+    user_board = initialize_board(size)
+    computer_board = initialize_board(size)
+
+    print()
+    print("=> Now place your ships on the grid.\n")
+    user_ship_locations = place_ships(user_board, fleet_size, fleet_count)
+    computer_ship_locations = place_random_ships(computer_board, fleet_size, fleet_count, size)
     print()
     
-    # Tres lineas que permiten testear toda la parte encima. Puede comentarlas 
-    # mostrar_resultados(ubicacion_barcos_usuario) 
-    # mostrar_resultados(ubicacion_barcos_ordenador)
-    # mostrar_tablero(tablero_ordenador)
+    # Three lines for testing above functionality. You can comment them out
+    # show_results(user_ship_locations) 
+    # show_results(computer_ship_locations)
+    # show_board(computer_board)
 
-    tiros_anteriores = set()
-    casillas_a_evitar = set()
-    tiros_probables=[]
-    tocado=[]
+    previous_shots = set()
+    cells_to_avoid = set()
+    probable_shots = []
+    hit = []
 
-    # testos para verficar las funciones de tiros individualmente 
-    """ USUARIO
-    tiro_usuario(tablero_ordenador, ubicacion_barcos_ordenador, primeras_letras)  
+    # Tests to verify individual shot functions
+    """ USER
+    user_shot(computer_board, computer_ship_locations, first_letters)  
     """
 
-    """ COMPUTADORA ESTRATEGICA
-    tiro_compu_estrategico(tablero_usuario, tamaño, flota_tamaño, ubicacion_barcos_usuario, tiros_anteriores, casillas_a_evitar, primeras_letras, tiros_probables, tocado):
+    """ STRATEGIC COMPUTER
+    strategic_computer_shot(user_board, size, fleet_size, user_ship_locations, previous_shots, cells_to_avoid, first_letters, probable_shots, hit)
     """
 
-    """ COMPUTADORA AZAR
-    tiro_compu_azar(tablero_usuario, tamaño, flota_tamaño, ubicacion_barcos_usuario, tiros_anteriores, primeras_letras)
+    """ RANDOM COMPUTER
+    random_computer_shot(user_board, size, fleet_size, user_ship_locations, previous_shots, first_letters)
     """
 
-    nivel = definir_nivel_ordenador()
-
-    modo = definir_modo()
+    level = define_computer_level()
+    mode = define_mode()
     
-    Jugar(tablero_ordenador, ubicacion_barcos_ordenador, primeras_letras, tablero_usuario, tamaño, flota_tamaño, ubicacion_barcos_usuario, tiros_anteriores, modo, nivel, casillas_a_evitar, tiros_probables, tocado)
+    Play(computer_board, computer_ship_locations, first_letters, user_board, size, fleet_size, user_ship_locations, previous_shots, mode, level, cells_to_avoid, probable_shots, hit)
         
 if __name__ == "__main__":
     main()
